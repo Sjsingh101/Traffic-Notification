@@ -3,8 +3,8 @@ package com.sjsingh101.trafficnotification;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 
-import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -30,10 +30,16 @@ public class MainActivity extends AppCompatActivity {
     FirebaseDatabase database;
     Data value1;
     Context context;
+
+    private NotificationManagerCompat notificationManagerCompat;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        notificationManagerCompat=NotificationManagerCompat.from(this);
 
         final String TAG ="com";
         FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -56,12 +62,7 @@ public class MainActivity extends AppCompatActivity {
                     //current value is 6
                     //notification
 
-
-
-
-
-
-
+                    createNotification();
                 }
 
             }
@@ -78,6 +79,21 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+    }
+
+    private void createNotification()
+    {
+
+        android.app.Notification notification=new NotificationCompat.Builder(this,
+                Notification.CHANNEL1_ID)
+                .setSmallIcon(R.drawable.ic_happy)
+                .setContentTitle("Traffic Light")
+                .setContentText("Obbey traffic rules pls")
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setCategory(NotificationCompat.CATEGORY_MESSAGE)
+                .build();
+
+        notificationManagerCompat.notify(1,notification);
     }
 
 
